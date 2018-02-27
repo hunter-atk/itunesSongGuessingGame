@@ -1,1 +1,10 @@
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 
+body {
+  display: flex;
+  justify-content: center;
+}
