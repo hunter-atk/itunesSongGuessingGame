@@ -13,11 +13,13 @@ var newsongIds = songIds;
 function songGuessingGame(){
 
   var randomId = newsongIds[Math.floor(Math.random()*newsongIds.length)];
+
  fetch(`https://itunes.apple.com/search?term=${randomId}`)
   .then(function(res){
     return res.json();
   })
   .then(function(data){
+    console.log(data.results[0]);
     var songPlay = document.createElement("audio");
     var docBody = document.getElementsByTagName('body')[0];
     var replay = document.createElement('button');
@@ -27,22 +29,45 @@ function songGuessingGame(){
     var inputContainer = document.createElement('container');
     var inputField = document.createElement('input');
     var inputSubmit = document.createElement('input');
+    var currentCorrect = 0;
+    var currentWrong = 0;
+    var scoreContainer = document.createElement('container');
     docBody.appendChild(mainContainer);
     console.log(docBody);
 
+    mainContainer.appendChild(scoreContainer);
     mainContainer.appendChild(songContainer);
     mainContainer.appendChild(inputContainer);
     mainContainer.appendChild(replayContainer);
 
+    scoreContainer.setAttribute("class", "scoreText");
+    scoreContainer.innerText = "Your current score: " + currentCorrect;
+
     inputContainer.appendChild(inputField);
     inputField.setAttribute("type", "text");
+    inputField.setAttribute("placeholder", "Guess the song title!");
+    inputField.setAttribute("id", "input_field");
     inputContainer.appendChild(inputSubmit);
     inputSubmit.setAttribute("type", "submit");
+    inputSubmit.setAttribute("value", "GUESS")
+    inputSubmit.setAttribute("id", "input_submit")
 
     songContainer.setAttribute("class", "songContainer");
     inputContainer.setAttribute("class", "inputContainer");
     replayContainer.setAttribute("class", "replayContainer");
     mainContainer.setAttribute("class", "mainContainer");
+
+    inputSubmit.addEventListener('click', function(ev){
+      if (inputField.value == data.results[0].trackName){
+        console.log("You guessed right!");
+        currentCorrect++;
+        scoreContainer.innerText = "Your current score: " + currentCorrect;
+        console.log(currentCorrect);
+      } else {
+        console.log("Sorry, guess again...")
+        currentWrong++;
+      }
+    })
 
     replay.innerText = "Next song!";
     replay.addEventListener('click', function(ev){
@@ -50,6 +75,7 @@ function songGuessingGame(){
         replay.remove();
         inputField.remove();
         inputSubmit.remove();
+        scoreContainer.remove();
     		songGuessingGame();
     	})
 
