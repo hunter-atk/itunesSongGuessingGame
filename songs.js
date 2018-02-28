@@ -21,7 +21,7 @@ function songGuessingGame(){
     return res.json();
   })
   .then(function(data){
-    console.log(data.results[0]);
+    //console.log(data.results[0]);
     var songPlay = document.createElement("audio");
     var docBody = document.getElementsByTagName('body')[0];
     var replay = document.createElement('button');
@@ -43,7 +43,7 @@ function songGuessingGame(){
     var songName = data.results[0].trackName;
     var resultContainer = document.createElement('container');
     docBody.appendChild(mainContainer);
-    console.log(docBody);
+    //console.log(docBody);
 
     mainContainer.appendChild(scoreContainer);
     mainContainer.appendChild(songContainer);
