@@ -9,6 +9,8 @@ var songIds = ["995535015", "966411602", "823593456", "956689796", "943946671",
                 "344799727", "162337613", "121695005", "159293848", "305118379" ];
 
 var newsongIds = songIds;
+var currentCorrect = 0;
+var currentWrong = 0;
 
 function songGuessingGame(){
 
@@ -29,9 +31,17 @@ function songGuessingGame(){
     var inputContainer = document.createElement('container');
     var inputField = document.createElement('input');
     var inputSubmit = document.createElement('input');
-    var currentCorrect = 0;
-    var currentWrong = 0;
     var scoreContainer = document.createElement('container');
+    var statsContainer = document.createElement('container');
+    var artistNameDiv = document.createElement('div');
+    var albumNameDiv = document.createElement('div');
+    var songNameDiv = document.createElement('div');
+    var albumArtDiv = document.createElement('img');
+    var albumArt = "";
+    var artistName = data.results[0].artistName;
+    var albumName = data.results[0].collectionName;
+    var songName = data.results[0].trackName;
+    var resultContainer = document.createElement('container');
     docBody.appendChild(mainContainer);
     console.log(docBody);
 
@@ -39,13 +49,20 @@ function songGuessingGame(){
     mainContainer.appendChild(songContainer);
     mainContainer.appendChild(inputContainer);
     mainContainer.appendChild(replayContainer);
+    mainContainer.appendChild(resultContainer);
+    mainContainer.appendChild(statsContainer);
+
+    statsContainer.appendChild(artistNameDiv);
+    statsContainer.appendChild(songNameDiv);
+    statsContainer.appendChild(albumNameDiv);
+    statsContainer.appendChild(albumArtDiv);
 
     scoreContainer.setAttribute("class", "scoreText");
     scoreContainer.innerText = "Your current score: " + currentCorrect;
 
     inputContainer.appendChild(inputField);
     inputField.setAttribute("type", "text");
-    inputField.setAttribute("placeholder", "Guess the song title!");
+    inputField.setAttribute("placeholder", "Guess the song, album, or artist!");
     inputField.setAttribute("id", "input_field");
     inputContainer.appendChild(inputSubmit);
     inputSubmit.setAttribute("type", "submit");
@@ -58,24 +75,39 @@ function songGuessingGame(){
     mainContainer.setAttribute("class", "mainContainer");
 
     inputSubmit.addEventListener('click', function(ev){
-      if (inputField.value == data.results[0].trackName){
+      if (inputField.value == songName || inputField.value == albumName || inputField.value == artistName){
         console.log("You guessed right!");
         currentCorrect++;
         scoreContainer.innerText = "Your current score: " + currentCorrect;
+        artistNameDiv.innerText = "Artist: " + artistName;
+        songNameDiv.innerText = "Track: " + songName;
+        albumNameDiv.innerText = "Album: " + albumName;
+        albumArt = data.results[0].artworkUrl100;
+        albumArtDiv.setAttribute("src", albumArt);
+        resultContainer.innerText = "CORRECT!";
         console.log(currentCorrect);
       } else {
         console.log("Sorry, guess again...")
         currentWrong++;
+        resultContainer.innerText = "Sorry, guess again...";
       }
     })
 
     replay.innerText = "Next song!";
     replay.addEventListener('click', function(ev){
-        songPlay.remove();
-        replay.remove();
-        inputField.remove();
-        inputSubmit.remove();
-        scoreContainer.remove();
+        // songPlay.remove();
+        // replay.remove();
+        // inputField.remove();
+        // inputSubmit.remove();
+        // currentCorrect.remove();
+        // artistName.remove();
+        // albumName.remove();
+        // songName.remove();
+        // artistNameDiv.remove();
+        // songNameDiv.remove();
+        // albumNameDiv.remove();
+        // albumArtDiv.remove();
+         mainContainer.remove();
     		songGuessingGame();
     	})
 

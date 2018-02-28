@@ -8,3 +8,7 @@ body {
   display: flex;
   justify-content: center;
 }
+
+#input_field {
+  width: 80%;
+}
